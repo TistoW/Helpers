@@ -1,4 +1,4 @@
-package com.zenenta.myhelper.extension
+package com.tisto.myhelper.extension
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -9,7 +9,6 @@ import android.content.res.Resources
 import android.graphics.*
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.Uri
 import android.os.*
 import android.provider.Settings
 import android.telephony.TelephonyManager
@@ -30,11 +29,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
-import com.zenenta.myhelper.R
-import com.zenenta.myhelper.util.AppConstants.TIME_STAMP_FORMAT
+import com.tisto.myhelper.R
+import com.tisto.myhelper.util.AppConstants.TIME_STAMP_FORMAT
 import java.net.URL
-import java.net.URLEncoder
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime

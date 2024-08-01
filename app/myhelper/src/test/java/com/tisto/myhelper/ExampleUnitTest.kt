@@ -1,4 +1,4 @@
-package com.zenenta.myhelper
+package com.tisto.myhelper
 
 import org.junit.Test
 

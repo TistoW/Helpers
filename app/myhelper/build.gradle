@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.zenenta.myhelper'
+    namespace 'com.tisto.myhelper'
     compileSdk 34
 
     defaultConfig {

@@ -1,28 +1,24 @@
-package com.zenenta.myhelper.extension
+package com.tisto.myhelper.extension
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.graphics.drawable.InsetDrawable
 import android.net.Uri
-import android.os.Handler
-import android.os.Looper
 import android.os.Parcelable
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import com.zenenta.myhelper.util.AppConstants
+import com.tisto.myhelper.util.AppConstants
 import kotlin.math.roundToInt
 
 
