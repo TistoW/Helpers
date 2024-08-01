@@ -1,7 +1,8 @@
-package com.tisto.myhelper.extension
+package com.tisto.helpers.extension
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -14,11 +15,15 @@ import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import com.tisto.myhelper.util.AppConstants
+import com.github.dhaval2404.imagepicker.ImagePicker
+import com.tisto.helpers.util.AppConstants
+import java.util.Observable
+import java.util.concurrent.ExecutionException
 import kotlin.math.roundToInt
 
 
@@ -99,11 +104,7 @@ fun <T> Context.createIntent(activity: Class<T>, value: String, name: String = "
     return i
 }
 
-fun <T> Context.createIntent(
-    activity: Class<T>,
-    value: Parcelable?,
-    name: String = "extra"
-): Intent {
+fun <T> Context.createIntent(activity: Class<T>, value: Parcelable?, name: String = "extra"): Intent {
     val i = Intent(applicationContext, activity)
     i.putExtra(name, value)
     return i
@@ -119,11 +120,7 @@ fun <T> Fragment.createIntent(activity: Class<T>, value: String, name: String = 
     return i
 }
 
-fun <T> Fragment.createIntent(
-    activity: Class<T>,
-    value: Parcelable?,
-    name: String = "extra"
-): Intent {
+fun <T> Fragment.createIntent(activity: Class<T>, value: Parcelable?, name: String = "extra"): Intent {
     val i = Intent(requireActivity(), activity)
     i.putExtra(name, value)
     return i
@@ -154,17 +151,12 @@ fun Activity.sendResult(value: String? = null, name: String = "extra") {
     setResult(Activity.RESULT_OK, intent)
 }
 
+inline fun <reified T : Any> Activity.extra(key: String = AppConstants.EXTRA, default: T? = null) = lazy {
+    val value = intent?.extras?.get(key)
+    if (value is T) value else default
+}
 
-inline fun <reified T : Any> Activity.extra(key: String = AppConstants.EXTRA, default: T? = null) =
-    lazy {
-        val value = intent?.extras?.get(key)
-        if (value is T) value else default
-    }
-
-inline fun <reified T : Any> Activity.getExtra(
-    key: String = AppConstants.EXTRA,
-    default: T? = null
-) = lazy {
+inline fun <reified T : Any> Activity.getExtra(key: String = AppConstants.EXTRA, default: T? = null) = lazy {
     val value = intent?.extras?.get(key)
     if (value is T) value else default
 }
@@ -276,6 +268,28 @@ fun Activity.popUpMenuImage(view: View, list: List<MenuImage>, onClicked: (Strin
     })
 
     popupMenu.show()
+}
+
+fun Activity.imagePicker(
+    width: Int = 1080,
+    height: Int = 1080,
+    compress: Int = 1024,
+    isCrop: Boolean = true,
+    onlyCamera: Boolean = false,
+    onlyGallery: Boolean = false,
+    intent: (Intent) -> Unit
+) {
+    val picker = ImagePicker
+        .with(this)
+        .maxResultSize(width, height)
+
+    if (compress > 0) picker.compress(compress)
+    if (isCrop) picker.crop()
+    if (onlyCamera) picker.cameraOnly()
+    if (onlyGallery) picker.galleryOnly()
+    picker.createIntent {
+        intent.invoke(it)
+    }
 }
 
 fun Activity.isLandscapeMode(): Boolean {

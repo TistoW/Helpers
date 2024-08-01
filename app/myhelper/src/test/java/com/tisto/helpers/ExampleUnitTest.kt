@@ -1,4 +1,4 @@
-package com.tisto.myhelper
+package com.tisto.helpers
 
 import org.junit.Test
 

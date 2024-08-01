@@ -1,4 +1,4 @@
-package com.tisto.myhelper.util
+package com.tisto.helpers.util
 
 object AppConstants {
     const val TIME_STAMP_FORMAT = "yyyy-MM-dd"

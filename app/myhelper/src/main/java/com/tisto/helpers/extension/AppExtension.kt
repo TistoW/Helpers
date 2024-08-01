@@ -1,4 +1,4 @@
-package com.tisto.myhelper.extension
+package com.tisto.helpers.extension
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -9,6 +9,7 @@ import android.content.res.Resources
 import android.graphics.*
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.*
 import android.provider.Settings
 import android.telephony.TelephonyManager
@@ -29,9 +30,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.tisto.myhelper.R
-import com.tisto.myhelper.util.AppConstants.TIME_STAMP_FORMAT
+import com.google.gson.Gson
+import com.tisto.helpers.R
+import com.tisto.helpers.util.AppConstants.TIME_STAMP_FORMAT
 import java.net.URL
+import java.net.URLEncoder
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -78,6 +81,16 @@ fun longLogs(longString: String, tag: String = "RESPONS") {
     }
 }
 
+fun <T> List<T>.loga(string: String = "This:") {
+    this.forEach {
+        logs("$string:" + it.toJson())
+    }
+}
+
+fun <T> T.logm(string: String = "This:") {
+    logs("$string:" + this.toJson())
+}
+
 fun Context.setToolbar(view: Toolbar, title: String) {
     (this as AppCompatActivity).setSupportActionBar(view)
     this.supportActionBar!!.title = title
@@ -103,7 +116,7 @@ fun Fragment.hideKeyboard() {
     imm.hideSoftInputFromWindow(view!!.windowToken, 0)
 }
 
-fun Context.setError(editText: EditText, message: String = "Kolom Tidak Boleh Kosong") {
+fun Context.setError(editText: EditText, message: String = "Kolom tidak boleh kosong") {
     editText.error = message
     editText.requestFocus()
 }
@@ -157,6 +170,85 @@ fun Fragment.horizontalLayoutManager(): LinearLayoutManager {
     val layoutManager = LinearLayoutManager(requireActivity())
     layoutManager.orientation = LinearLayoutManager.HORIZONTAL
     return layoutManager
+}
+
+
+@SuppressLint("QueryPermissionsNeeded")
+fun Context.openWhatsApp(phone: String, message: String = "Hallo admin,") {
+    try {
+        val packageManager: PackageManager = packageManager
+        val i = Intent(Intent.ACTION_VIEW)
+        val url = "https://api.whatsapp.com/send?phone=" + phone + "&text=" + URLEncoder.encode(
+            message,
+            "UTF-8"
+        )
+        i.setPackage("com.whatsapp")
+        i.data = Uri.parse(url)
+        if (i.resolveActivity(packageManager) != null) {
+            startActivity(i)
+        } else {
+            logs("cek ini tidak bisa")
+            openWhatsappAlternate(phone, message)
+        }
+    } catch (e: Exception) {
+        logs("cek ini tidak bisa1")
+        openWhatsappAlternate(phone, message)
+    }
+}
+
+fun Context.openWhatsappAlternate(phone: String, message: String) {
+    try {
+        var toNumber = phone // contains spaces.
+        toNumber = toNumber.replace("+", "").replace(" ", "")
+        val sendIntent = Intent("android.intent.action.MAIN")
+        sendIntent.putExtra("jid", "$toNumber@s.whatsapp.net")
+        sendIntent.putExtra(Intent.EXTRA_TEXT, message)
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.setPackage("com.whatsapp")
+        sendIntent.type = "text/plain"
+        startActivity(sendIntent)
+    } catch (e: Exception) {
+        logs("cek ini tidak bisa2")
+        openWhatsAppBusiness(phone, message)
+    }
+}
+
+@SuppressLint("QueryPermissionsNeeded")
+fun Context.openWhatsAppBusiness(phone: String, message: String = "Hallo admin,") {
+    try {
+        val packageManager: PackageManager = packageManager
+        val i = Intent(Intent.ACTION_VIEW)
+        val url = "https://api.whatsapp.com/send?phone=" + phone + "&text=" + URLEncoder.encode(
+            message,
+            "UTF-8"
+        )
+        i.setPackage("com.whatsapp.w4b")
+        i.data = Uri.parse(url)
+        if (i.resolveActivity(packageManager) != null) {
+            startActivity(i)
+        } else {
+            toastSimple("Gagal Membuka Whatsapp Business!")
+        }
+    } catch (e: Exception) {
+        toastSimple("Gagal Membuka Whatsapp Business!")
+    }
+}
+
+
+fun Context.openBrowser(url: String) {
+    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    startActivity(browserIntent)
+}
+
+fun Context.openEmail(emailTo: String, text: String, subject: String = "") {
+    try {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("mailto:$emailTo"))
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        intent.putExtra(Intent.EXTRA_TEXT, text)
+        startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        showErrorDialog("tidak ada Aplikasi Emailer terpasang")
+    }
 }
 
 @SuppressLint("SimpleDateFormat")
@@ -301,6 +393,20 @@ fun checkPrefix(mPhone: String): String {
     }
 }
 
+fun Activity.setPrimaryStatusBarBackgound() {
+    setStatusBarBackgroudColor(R.color.colorPrimary)
+    lightStatusBar()
+}
+
+fun Activity.setWhiteStatusBarBackgound() {
+    setStatusBarBackgroudColor(R.color.white)
+    blackStatusBar()
+}
+
+fun Activity.setStatusBarBackgoundColor(color: Int) {
+    setStatusBarBackgroudColor(color)
+}
+
 fun Int?.def(v: Int = 0): Int {
     return this ?: v
 }
@@ -315,6 +421,11 @@ fun Double?.def(v: Double = 0.0): Double {
 
 fun Long?.def(v: Long = 0L): Long {
     return this ?: v
+}
+
+fun <T> T.toMap(): Map<String, String> {
+    val map: Map<String, String> = HashMap()
+    return Gson().fromJson(this.toJson(), map.javaClass)
 }
 
 fun Context.isOffline(): Boolean {
