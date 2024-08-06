@@ -25,6 +25,7 @@ import com.tisto.helpers.util.AppConstants
 import java.util.Observable
 import java.util.concurrent.ExecutionException
 import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 
 fun <T> Context.intentActivity(activity: Class<T>, value: String, name: String = "extra") {
@@ -299,4 +300,14 @@ fun Activity.isLandscapeMode(): Boolean {
 
 fun Activity.percentageDialog(): Int {
     return if (isLandscapeMode()) 55 else 80
+}
+
+fun Activity.isTabletScreen(): Boolean {
+    val isLargeScreen =
+        (resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE
+    val displayMetrics = resources.displayMetrics
+    val widthInches = displayMetrics.widthPixels / displayMetrics.xdpi
+    val heightInches = displayMetrics.heightPixels / displayMetrics.ydpi
+    val diagonalInches = sqrt((widthInches * widthInches + heightInches * heightInches).toDouble())
+    return isLargeScreen || diagonalInches >= 7.0
 }

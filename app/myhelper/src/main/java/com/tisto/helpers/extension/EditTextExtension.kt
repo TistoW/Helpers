@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
@@ -337,4 +338,10 @@ fun calculateNewCursorPosition(
     return newPosition
 }
 
+fun EditText.setInputTypeNumber() {
+    inputType = InputType.TYPE_CLASS_NUMBER
+}
 
+fun EditText.setInputTypeDecimal() {
+    inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
+}

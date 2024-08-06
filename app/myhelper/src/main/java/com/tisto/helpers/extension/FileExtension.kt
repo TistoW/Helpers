@@ -1,7 +1,9 @@
 package com.tisto.helpers.extension
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.os.Environment
 import android.view.View
@@ -124,4 +126,59 @@ fun getDownloadDirectory(): String {
 
 fun Activity.saveFile(imageToSave: Bitmap, pathLocation: String, fileName: String) {
     saveBitmapToFileExplorer(imageToSave, pathLocation, fileName)
+}
+
+fun File.resizeImageRes(context: Context, newWidth: Int): File {
+    // Decode the original bitmap to check its width
+    val inputFile = this
+    val options = BitmapFactory.Options()
+    options.inJustDecodeBounds = true
+    BitmapFactory.decodeFile(inputFile.absolutePath, options)
+    val originalWidth = options.outWidth
+
+    // If the original image width is greater than newWidth, proceed with resizing
+    if (originalWidth > newWidth) {
+        // Load the image for real this time
+        options.inJustDecodeBounds = false
+        val originalBitmap = BitmapFactory.decodeFile(inputFile.absolutePath, options)
+
+        // Calculate the new height to maintain the aspect ratio
+        val aspectRatio = originalBitmap.width.toDouble() / originalBitmap.height.toDouble()
+        val newHeight = (newWidth / aspectRatio).toInt()
+
+        // Create a new bitmap with the desired dimensions
+        val resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true)
+
+        // Save the resized bitmap to a new file
+        val resizedFile =
+            File(context.getExternalFilesDir(null), "resized_${System.currentTimeMillis()}.jpg")
+        FileOutputStream(resizedFile).use { out ->
+            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        }
+
+        return resizedFile
+    } else {
+        // Return the original file if its width is less than or equal to newWidth
+        return inputFile
+    }
+}
+
+fun resizeBitmaps(source: Bitmap, maxWidth: Int): Bitmap {
+    return try {
+        if (source.height >= source.width) {
+            if (source.height <= maxWidth) return source //  return jika sudah kecil
+            val aspectRatio = source.width.toDouble() / source.height.toDouble()
+            val targetWidth = (maxWidth * aspectRatio).toInt()
+            val result = Bitmap.createScaledBitmap(source, targetWidth, maxWidth, false)
+            result
+        } else {
+            if (source.width <= maxWidth) return source // return jika sudah kecil
+            val aspectRatio = source.height.toDouble() / source.width.toDouble()
+            val targetHeight = (maxWidth * aspectRatio).toInt()
+            val result = Bitmap.createScaledBitmap(source, maxWidth, targetHeight, false)
+            result
+        }
+    } catch (e: Exception) {
+        source
+    }
 }

@@ -1,5 +1,7 @@
 package com.tisto.helpers.extension
 
+import kotlin.math.round
+
 fun String?.toDoubleSafety(): Double {
     return if (this != null) {
         if (this.isEmpty()) {
@@ -176,6 +178,10 @@ fun String?.toStringForceEmpty(): String {
 }
 
 fun Int?.discount(discount: Int?): Int {
-    val harga = this.def(0)
-    return ((discount.def(0).toDouble() / 100) * harga).toInt()
+    val value = this.def(0)
+    return ((discount.def(0).toDouble() / 100) * value).toInt()
+}
+
+fun Double.roundToInt(): Int {
+    return round(this).toInt()
 }

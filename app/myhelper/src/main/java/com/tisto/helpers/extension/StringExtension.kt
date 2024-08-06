@@ -427,3 +427,7 @@ fun String?.startWithZero(): String {
     return result ?: ""
 }
 
+fun String.isEmailValid(): Boolean {
+    val emailRegex = Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})")
+    return emailRegex.matches(this)
+}

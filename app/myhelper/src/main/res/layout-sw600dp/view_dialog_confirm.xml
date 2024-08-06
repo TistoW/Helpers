@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:backgroundTint="@color/white"
     android:backgroundTintMode="screen"
-    app:cardCornerRadius="@dimen/_5sdp"
+    app:cardCornerRadius="@dimen/_3sdp"
     app:cardElevation="0dp">
 
     <LinearLayout
@@ -19,23 +19,24 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_11sdp"
             android:gravity="center"
             android:textColor="@color/dark"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_7ssp"
+            android:textStyle="bold"
             tools:text="Title" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
             android:gravity="center"
             android:textColor="@color/gray3"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_6ssp"
             tools:text="Subtitle" />
 
         <include layout="@layout/divider_layout" />
@@ -44,11 +45,11 @@
             android:id="@+id/btn_confirm"
             style="@style/Widget.Material3.Button.TonalButton"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/normal_height"
+            android:layout_height="@dimen/_23sdp"
             android:background="@color/white"
             android:text="@string/dialog_ok"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_6ssp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -64,11 +65,11 @@
                 android:id="@+id/btn_actionSecondary"
                 style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/normal_height"
+                android:layout_height="@dimen/_23sdp"
                 android:background="@color/white"
                 android:text="@string/dialog_ok"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_6ssp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -76,14 +77,14 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/btn_close"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/normal_height"
+            android:layout_height="@dimen/_23sdp"
             android:backgroundTint="@color/gray5"
             app:cardCornerRadius="0dp"
             app:cardElevation="0dp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/_16sdp"
-                android:layout_height="@dimen/_16sdp"
+                android:layout_width="@dimen/_11sdp"
+                android:layout_height="@dimen/_11sdp"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/ic_asset_close_lib" />
 
