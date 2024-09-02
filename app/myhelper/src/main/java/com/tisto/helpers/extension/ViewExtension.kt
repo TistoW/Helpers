@@ -221,7 +221,7 @@ fun ImageView.setImagePicasso(
                 isFirstResource: Boolean
             ): Boolean {
                 onError?.invoke(e?.message ?: "Glide Error")
-                return false
+                return true
             }
         })
         .into(this)

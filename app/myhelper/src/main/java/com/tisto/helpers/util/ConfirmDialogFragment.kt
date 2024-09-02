@@ -48,8 +48,8 @@ class ConfirmDialogFragment(
         binding.apply {
             tvTitle.text = title
             tvSubtitle.text = subtitle
-            tvConifrm.text = actionText
-            tvActionSecondary.text = actionTextSecondary
+            btnConfirm.text = actionText
+            btnActionSecondary.text = actionTextSecondary
             lySecondary.visible(!actionTextSecondary.isNullOrEmpty())
         }
     }
