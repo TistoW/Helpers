@@ -41,14 +41,15 @@
 
         <include layout="@layout/divider_layout" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_confirm"
-            style="@style/Widget.Material3.Button.TonalButton"
+            style="@style/layout_clickable"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_23sdp"
             android:background="@color/white"
+            android:gravity="center"
             android:text="@string/dialog_ok"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/dark"
             android:textSize="@dimen/_6ssp"
             android:textStyle="bold" />
 
@@ -61,21 +62,25 @@
 
             <include layout="@layout/divider_layout" />
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btn_actionSecondary"
-                style="@style/Widget.Material3.Button.TonalButton"
+                style="@style/layout_clickable"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_23sdp"
                 android:background="@color/white"
                 android:text="@string/dialog_ok"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/dark"
                 android:textSize="@dimen/_6ssp"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
-        <com.google.android.material.card.MaterialCardView
+        <include layout="@layout/divider_layout" />
+
+        <RelativeLayout
             android:id="@+id/btn_close"
+            style="@style/layout_clickable"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_23sdp"
             android:backgroundTint="@color/gray5"
@@ -85,10 +90,11 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/_11sdp"
                 android:layout_height="@dimen/_11sdp"
+                android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/ic_asset_close_lib" />
 
-        </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
 
     </LinearLayout>
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.tisto.helpers.extension.logs
 import com.tisto.helpers.extension.setImagePicasso
+import com.tisto.helpers.extension.showConfirmDialog
 import com.zenenta.helper.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
