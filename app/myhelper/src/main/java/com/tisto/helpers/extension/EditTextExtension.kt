@@ -65,20 +65,6 @@ fun AppCompatEditText.clearSearch() {
     clearFocus()
 }
 
-fun EditText.setOnRupiahChangeListener(
-    includePrefix: Boolean = false,
-    onChange: ((s: String) -> Unit)? = null
-) {
-    addChangeCurrencyListeners(includePrefix, onChange)
-}
-
-fun EditText.onChangeRupiah(
-    includePrefix: Boolean = false,
-    onChange: ((s: String) -> Unit)? = null
-) {
-    addChangeCurrencyListeners(includePrefix, onChange)
-}
-
 fun TextInputEditText.setOnChangeListener(onChange: ((s: String) -> Unit)? = null) {
     onChangeListener(onChange)
 }
@@ -108,20 +94,6 @@ fun EditText.changeListener(onChange: ((s: String) -> Unit?)? = null) {
             onChange?.invoke(s.toString())
         }
     })
-}
-
-fun AppCompatEditText.addRupiahListener(
-    includePrefix: Boolean = false,
-    onChange: ((s: String) -> Unit)? = null
-) {
-    addChangeCurrencyListeners(includePrefix, onChange)
-}
-
-fun TextInputEditText.addRupiahListener(
-    includePrefix: Boolean = false,
-    onChange: ((s: String) -> Unit)? = null
-) {
-    addChangeCurrencyListeners(includePrefix, onChange)
 }
 
 fun TextInputEditText.addFirstTextCapitalListener(onChange: ((s: String) -> Unit)? = null) {
@@ -255,6 +227,33 @@ fun EditText.onEnterKeyPressed(onEnterPressed: (() -> Unit)) {
     })
 }
 
+fun EditText.setOnRupiahChangeListener(
+    includePrefix: Boolean = false,
+    onChange: ((s: String) -> Unit)? = null
+) {
+    addChangeCurrencyListeners(includePrefix, onChange)
+}
+
+fun EditText.onChangeRupiah(
+    includePrefix: Boolean = false,
+    onChange: ((s: String) -> Unit)? = null
+) {
+    addChangeCurrencyListeners(includePrefix, onChange)
+}
+
+fun AppCompatEditText.addRupiahListener(
+    includePrefix: Boolean = false,
+    onChange: ((s: String) -> Unit)? = null
+) {
+    addChangeCurrencyListeners(includePrefix, onChange)
+}
+
+fun TextInputEditText.addRupiahListener(
+    includePrefix: Boolean = false,
+    onChange: ((s: String) -> Unit)? = null
+) {
+    addChangeCurrencyListeners(includePrefix, onChange)
+}
 
 fun TextInputEditText.addChangeRupiahListener(
     includePrefix: Boolean = false,
@@ -306,7 +305,7 @@ fun EditText.addChangeCurrencyListeners(
                 var formatted = if (parsed != null) {
                     val formatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
                     formatter.maximumFractionDigits = 0
-                    formatter.format(parsed)
+                    formatter.format(parsed).replace(".", ",")
                 } else {
                     ""
                 }

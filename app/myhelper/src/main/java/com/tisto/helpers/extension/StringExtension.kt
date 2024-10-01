@@ -153,35 +153,16 @@ fun String.convertFromUTCDayTime(time: Boolean = true): String {
     return "$hari, $tanggal${if (time) " WIB" else ""}"
 }
 
-
-fun Int.toRupiah(hideCurrency: Boolean = false): String {
-    val localeID = Locale("in", "ID")
-    val format = NumberFormat.getCurrencyInstance(localeID)
-    var value = format.format(this).replace(",00", "")
-    if (hideCurrency) value = value.replace("Rp", "")
-    return value
-}
-
-
 fun Int?.toRupiah(hideCurrency: Boolean = false): String {
-    return (this ?: 0).toRupiah(hideCurrency)
+    return (this ?: 0).formatCurrency(!hideCurrency)
 }
 
-fun Double.toRupiah(hideCurrency: Boolean = false): String {
-    val localeID = Locale("in", "ID")
-    val format = NumberFormat.getCurrencyInstance(localeID)
-    var value = format.format(this).replace(",00", "")
-    if (hideCurrency) value = value.replace("Rp", "")
-    return value
+fun Double?.toRupiah(hideCurrency: Boolean = false): String {
+    return (this ?: 0.0).formatCurrency(!hideCurrency)
 }
 
 fun String?.toRupiah(hideCurrency: Boolean = false): String {
-    if (this == null || this.isEmpty()) return ""
-    val localeID = Locale("in", "ID")
-    val format = NumberFormat.getCurrencyInstance(localeID)
-    var value = format.format(this.toDouble()).replace(",00", "")
-    if (hideCurrency) value = value.replace("Rp", "")
-    return value
+    return (this ?: "0").formatCurrency(!hideCurrency)
 }
 
 fun String.getYoutubeId(): String {
@@ -402,7 +383,7 @@ fun Double?.formatCurrency(showCurrency: Boolean = false): String {
             .format(this)
             .replace("Rp. ", "Rp")
         formated = formated.replace("Rp", if (showCurrency) "Rp" else "")
-        formated
+        formated.replace(".", ",")
     } catch (e: Exception) {
         e.printStackTrace()
         "0"
