@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/white"
     android:backgroundTintMode="screen"
-    app:cardCornerRadius="@dimen/_5sdp"
+    app:cardCornerRadius="@dimen/_3sdp"
     app:cardElevation="0dp">
 
     <LinearLayout
@@ -15,27 +15,28 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:gravity="center"
             android:textColor="@color/dark"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"
             tools:text="Title" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
             android:gravity="center"
             android:textColor="@color/gray3"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_11sdp"
             tools:text="Subtitle" />
 
         <include layout="@layout/divider_layout" />
@@ -44,12 +45,12 @@
             android:id="@+id/btn_confirm"
             style="@style/layout_clickable"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/normal_height"
+            android:layout_height="@dimen/_35sdp"
             android:background="@color/white"
             android:gravity="center"
             android:text="@string/dialog_ok"
             android:textColor="@color/dark"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_11sdp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -65,11 +66,12 @@
                 android:id="@+id/btn_actionSecondary"
                 style="@style/layout_clickable"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/normal_height"
+                android:layout_height="@dimen/_35sdp"
                 android:background="@color/white"
+                android:gravity="center"
                 android:text="@string/dialog_ok"
                 android:textColor="@color/dark"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_11sdp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -80,14 +82,14 @@
             android:id="@+id/btn_close"
             style="@style/layout_clickable"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/normal_height"
-            android:backgroundTint="@color/gray5"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@color/gray5"
             app:cardCornerRadius="0dp"
             app:cardElevation="0dp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/_16sdp"
-                android:layout_height="@dimen/_16sdp"
+                android:layout_width="@dimen/_14sdp"
+                android:layout_height="@dimen/_14sdp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/ic_asset_close_lib" />
@@ -96,4 +98,4 @@
 
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

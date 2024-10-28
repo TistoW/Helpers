@@ -9,6 +9,7 @@ import android.content.res.Configuration
 import android.graphics.Rect
 import android.graphics.drawable.InsetDrawable
 import android.net.Uri
+import android.os.Environment
 import android.os.Parcelable
 import android.util.TypedValue
 import android.view.View
@@ -105,7 +106,11 @@ fun <T> Context.createIntent(activity: Class<T>, value: String, name: String = "
     return i
 }
 
-fun <T> Context.createIntent(activity: Class<T>, value: Parcelable?, name: String = "extra"): Intent {
+fun <T> Context.createIntent(
+    activity: Class<T>,
+    value: Parcelable?,
+    name: String = "extra"
+): Intent {
     val i = Intent(applicationContext, activity)
     i.putExtra(name, value)
     return i
@@ -121,7 +126,11 @@ fun <T> Fragment.createIntent(activity: Class<T>, value: String, name: String = 
     return i
 }
 
-fun <T> Fragment.createIntent(activity: Class<T>, value: Parcelable?, name: String = "extra"): Intent {
+fun <T> Fragment.createIntent(
+    activity: Class<T>,
+    value: Parcelable?,
+    name: String = "extra"
+): Intent {
     val i = Intent(requireActivity(), activity)
     i.putExtra(name, value)
     return i
@@ -152,12 +161,16 @@ fun Activity.sendResult(value: String? = null, name: String = "extra") {
     setResult(Activity.RESULT_OK, intent)
 }
 
-inline fun <reified T : Any> Activity.extra(key: String = AppConstants.EXTRA, default: T? = null) = lazy {
-    val value = intent?.extras?.get(key)
-    if (value is T) value else default
-}
+inline fun <reified T : Any> Activity.extra(key: String = AppConstants.EXTRA, default: T? = null) =
+    lazy {
+        val value = intent?.extras?.get(key)
+        if (value is T) value else default
+    }
 
-inline fun <reified T : Any> Activity.getExtra(key: String = AppConstants.EXTRA, default: T? = null) = lazy {
+inline fun <reified T : Any> Activity.getExtra(
+    key: String = AppConstants.EXTRA,
+    default: T? = null
+) = lazy {
     val value = intent?.extras?.get(key)
     if (value is T) value else default
 }
@@ -276,6 +289,7 @@ fun Activity.imagePicker(
     height: Int = 1080,
     compress: Int = 1024,
     isCrop: Boolean = true,
+    isSquare: Boolean = false,
     onlyCamera: Boolean = false,
     onlyGallery: Boolean = false,
     intent: (Intent) -> Unit
@@ -283,9 +297,10 @@ fun Activity.imagePicker(
     val picker = ImagePicker
         .with(this)
         .maxResultSize(width, height)
-
+        .saveDir(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!)
     if (compress > 0) picker.compress(compress)
     if (isCrop) picker.crop()
+    if (isSquare) picker.cropSquare()
     if (onlyCamera) picker.cameraOnly()
     if (onlyGallery) picker.galleryOnly()
     picker.createIntent {
