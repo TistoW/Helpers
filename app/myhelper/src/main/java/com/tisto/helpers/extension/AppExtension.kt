@@ -187,11 +187,9 @@ fun Context.openWhatsApp(phone: String, message: String = "Hallo admin,") {
         if (i.resolveActivity(packageManager) != null) {
             startActivity(i)
         } else {
-            logs("cek ini tidak bisa")
             openWhatsappAlternate(phone, message)
         }
     } catch (e: Exception) {
-        logs("cek ini tidak bisa1")
         openWhatsappAlternate(phone, message)
     }
 }
@@ -208,29 +206,26 @@ fun Context.openWhatsappAlternate(phone: String, message: String) {
         sendIntent.type = "text/plain"
         startActivity(sendIntent)
     } catch (e: Exception) {
-        logs("cek ini tidak bisa2")
         openWhatsAppBusiness(phone, message)
     }
 }
 
 @SuppressLint("QueryPermissionsNeeded")
 fun Context.openWhatsAppBusiness(phone: String, message: String = "Hallo admin,") {
+    val text = URLEncoder.encode(message, "UTF-8")
     try {
         val packageManager: PackageManager = packageManager
         val i = Intent(Intent.ACTION_VIEW)
-        val url = "https://api.whatsapp.com/send?phone=" + phone + "&text=" + URLEncoder.encode(
-            message,
-            "UTF-8"
-        )
+        val url = "https://api.whatsapp.com/send?phone=$phone&text=$text"
         i.setPackage("com.whatsapp.w4b")
         i.data = Uri.parse(url)
         if (i.resolveActivity(packageManager) != null) {
             startActivity(i)
         } else {
-            toastSimple("Gagal Membuka Whatsapp Business!")
+            openBrowser("https://wa.me/$phone?text=$text")
         }
     } catch (e: Exception) {
-        toastSimple("Gagal Membuka Whatsapp Business!")
+        openBrowser("https://wa.me/$phone?text=$text")
     }
 }
 

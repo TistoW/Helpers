@@ -9,6 +9,7 @@ import com.tisto.helpers.extension.getDouble
 import com.tisto.helpers.extension.imagePicker
 import com.tisto.helpers.extension.logs
 import com.tisto.helpers.extension.onChangeRupiah
+import com.tisto.helpers.extension.openWhatsApp
 import com.tisto.helpers.extension.pushActivity
 import com.tisto.helpers.extension.setImagePicasso
 import com.tisto.helpers.extension.showConfirmDialog
@@ -28,15 +29,18 @@ class MainActivity : AppCompatActivity() {
 
         binding.apply {
             tvExample.setOnClickListener {
-                showConfirmDialog("Token expired!",
-                    "Sesi login telah habis",
-                    actionText = "Login",
-                    actionTextSecondary = "Tutup Aplikasi",
-                    onAction = {
-                    },
-                    onActionSecondary = {
 
-                    })
+                openWhatsApp("+6282341810186", "Hallo Admin Zen")
+
+//                showConfirmDialog("Token expired!",
+//                    "Sesi login telah habis",
+//                    actionText = "Login",
+//                    actionTextSecondary = "Tutup Aplikasi",
+//                    onAction = {
+//                    },
+//                    onActionSecondary = {
+//
+//                    })
             }
         }
 

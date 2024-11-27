@@ -20,7 +20,9 @@ class CountDown(
         startInterval = interval
         this.interval = interval
         timer = Timer()
-        timer?.scheduleAtFixedRate(object : TimerTask() {
+
+        // Schedule task using `schedule` instead of `scheduleAtFixedRate`
+        timer?.schedule(object : TimerTask() {
             override fun run() {
                 val second = setInterval()
                 var text = second.toString()
@@ -32,9 +34,13 @@ class CountDown(
                 if (second == 0) {
                     this@CountDown.interval = startInterval
                     onDone?.invoke()
+                    cancel() // Stop the timer when countdown reaches 0
+                } else {
+                    // Reschedule task
+                    timer?.schedule(this, 1000L)
                 }
             }
-        }, 1000L, 1000L)
+        }, 1000L)
     }
 
     private fun Int.timePadding() = this.toString().padStart(2, '0')
