@@ -15,7 +15,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-fun formatData(formatDate: String = defaultDateFormat, locale: Locale? = Locale.getDefault()): SimpleDateFormat {
+fun formatData(
+    formatDate: String = defaultDateFormat,
+    locale: Locale? = Locale.getDefault()
+): SimpleDateFormat {
     return SimpleDateFormat(formatDate, locale)
 }
 
@@ -215,8 +218,8 @@ private fun datePickerDialog(
     result: (String) -> Unit // // format result date yyyy-MM-dd,
 ): MaterialDatePicker<Long> {
     val builder = MaterialDatePicker.Builder
-            .datePicker()
-            .setTitleText(title)
+        .datePicker()
+        .setTitleText(title)
 
     val selectedCalender = android.icu.util.Calendar.getInstance()
     if (!date.isNullOrEmpty()) {
@@ -245,11 +248,21 @@ private fun timePickerDialog(
     minute: Int = 0,
     result: (hour: Int, minute: Int) -> Unit // // format result date kk:mm
 ): MaterialTimePicker {
+    var currentHour = hour
+    var currentMinute = minute
+    if (hour == 0 && minute == 0) {
+        val calendar = Calendar.getInstance()
+        currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        currentMinute = calendar.get(Calendar.MINUTE)
+    }
+
     val timeBuilder = MaterialTimePicker
-            .Builder()
-            .setTitleText(title)
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+        .Builder()
+        .setHour(currentHour)
+        .setMinute(currentMinute)
+        .setTitleText(title)
+        .setTimeFormat(TimeFormat.CLOCK_24H)
+        .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
     timeBuilder.setHour(hour)
     timeBuilder.setMinute(minute)
     val timePicker = timeBuilder.build()
@@ -267,8 +280,8 @@ fun dateTimePickerDialog(
     result: (String) -> Unit // // format result date yyyy-MM-dd kk:mm:ss,
 ) {
     val builder = MaterialDatePicker.Builder
-            .datePicker()
-            .setTitleText(titleDate)
+        .datePicker()
+        .setTitleText(titleDate)
 
     val selectedCalender = android.icu.util.Calendar.getInstance()
     if (!dateTime.isNullOrEmpty()) {
@@ -288,10 +301,10 @@ fun dateTimePickerDialog(
         val date = simpleDateFormat.format(calendar.time)
 
         val timeBuilder = MaterialTimePicker
-                .Builder()
-                .setTitleText(titleTime)
-                .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+            .Builder()
+            .setTitleText(titleTime)
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
         if (!dateTime.isNullOrEmpty()) {
             dateTime.let { selectedDate ->
                 val hour = selectedDate.convertTanggal("kk").toIntSafety()
