@@ -34,17 +34,25 @@ fun String.convertTanggal(
     toFormat: String,
     fromFormat: String = "yyyy-MM-dd kk:mm:ss"
 ): String {
-    val dateFormat = SimpleDateFormat(fromFormat)
-    val convert = dateFormat.parse(this)
-    dateFormat.applyPattern(toFormat)
-
-    try {
-
-    } catch (e: Exception) {
-
+    if (this.contains("Z", ignoreCase = true)) {
+        return this.convertFromUTC(toFormat = toFormat)
     }
+    
+    val inputFormat = SimpleDateFormat(fromFormat)
+    val outputFormat = SimpleDateFormat(toFormat)
+    return try {
+        val date = inputFormat.parse(this) ?: dateExample
+        outputFormat.format(date)
+    } catch (e: Exception) {
+        outputFormat.format(inputFormat.parse(dateExample) ?: dateExample)
+    }
+}
 
-    return dateFormat.format(convert ?: dateExample)
+fun String.convertDate(
+    toFormat: String,
+    fromFormat: String = "yyyy-MM-dd kk:mm:ss"
+): String {
+    return this.convertTanggal(toFormat, fromFormat)
 }
 
 

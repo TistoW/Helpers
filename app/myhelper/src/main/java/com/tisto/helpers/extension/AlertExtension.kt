@@ -1,13 +1,6 @@
 package com.tisto.helpers.extension
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -30,10 +23,10 @@ fun Context.showSuccessDialog(message: String, onConfirmClickListener: () -> Uni
         .show()
 }
 
-fun Context.showSuccessDialog(title: String, pesan: String) {
+fun Context.showSuccessDialog(title: String, message: String) {
     SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
         .setTitleText(title)
-        .setContentText(pesan)
+        .setContentText(message)
         .show()
 }
 
