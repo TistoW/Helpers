@@ -30,17 +30,20 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             tvExample.setOnClickListener {
 
-                openWhatsApp("+6282341810186", "Hallo Admin Zen")
+//                openWhatsApp("+6282341810186", "Hallo Admin Zen")
 
-//                showConfirmDialog("Token expired!",
-//                    "Sesi login telah habis",
-//                    actionText = "Login",
-//                    actionTextSecondary = "Tutup Aplikasi",
-//                    onAction = {
-//                    },
-//                    onActionSecondary = {
-//
-//                    })
+                showConfirmDialog("Token expired!",
+                    "Sesi login telah habis",
+                    actionText = "Login",
+                    actionTextSecondary = "Tutup Aplikasi",
+                    onAction = {
+                    },
+                    onActionSecondary = {
+
+                    },
+                    onDismiss = {
+                        logs("on dismis calld")
+                    })
             }
         }
 

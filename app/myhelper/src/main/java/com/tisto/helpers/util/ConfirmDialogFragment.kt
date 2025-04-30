@@ -16,8 +16,9 @@ class ConfirmDialogFragment(
     private val cancellable: Boolean = true,
     percentage: Int = 80,
     private val onClose: (() -> Unit)? = null,
+    private val onDismiss: (() -> Unit)? = null,
     private val onActionSecondary: (() -> Unit)? = null,
-    private val onAction: (() -> Unit)? = null
+    private val onAction: (() -> Unit)? = null,
 ) : BaseDialog(percentage) {
 
     private var _binding: ViewDialogConfirmBinding? = null
@@ -72,6 +73,11 @@ class ConfirmDialogFragment(
                 dismiss()
             }
         }
+    }
+
+    override fun onDestroy() {
+        onDismiss?.invoke()
+        super.onDestroy()
     }
 
     companion object {
