@@ -3,26 +3,84 @@ package com.tisto.helpers.util
 import com.tisto.helpers.extension.*
 
 object CustomDate {
-    fun getToday(formatDate: String = defaultDateFormat) = today(formatDate)
-    fun getFirstDayOfThisWeek(formatDate: String = defaultDateFormat) = firstDayOfThisWeek(formatDate)
-    fun getLastDayOfThisWeek(formatDate: String = defaultDateFormat) = lastDayOfThisWeek(formatDate)
-    fun getFirstDayOfLastWeek(formatDate: String = defaultDateFormat) = firstDayOfLastWeek(formatDate)
-    fun getLastDayOfLastWeek(formatDate: String = defaultDateFormat) = lastDayOfLastWeek(formatDate)
+    fun getToday(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = today(formatDate)
 
-    fun getFirstDayOfThisMonth(formatDate: String = defaultDateFormat) = firstDayOfThisMonth(formatDate)
-    fun getLastDayOfThisMonth(formatDate: String = defaultDateFormat) = lastDayOfThisMonth(formatDate)
-    fun getFirstDayOfLastMonth(formatDate: String = defaultDateFormat) = firstDayOfLastMonth(formatDate)
-    fun getLastDayOfLastMonth(formatDate: String = defaultDateFormat) = lastDayOfLastMonth(formatDate)
+    fun getFirstDayOfThisWeek(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = firstDayOfThisWeek(formatDate, boundary)
 
-    fun getLast30Day(formatDate: String = defaultDateFormat) = last30Day(formatDate)
-    fun getNext30Day(formatDate: String = defaultDateFormat) = next30Day(formatDate)
-    fun getLast7Day(formatDate: String = defaultDateFormat) = last7Day(formatDate)
-    fun getNext7Day(formatDate: String = defaultDateFormat) = next7Day(formatDate)
+    fun getLastDayOfThisWeek(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = lastDayOfThisWeek(formatDate, boundary)
 
-    fun getTomorrow(formatDate: String = defaultDateFormat) = tomorrow(formatDate)
-    fun getYesterday(formatDate: String = defaultDateFormat) = yesterday(formatDate)
+    fun getFirstDayOfLastWeek(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = firstDayOfLastWeek(formatDate, boundary)
 
-    fun getNextDay(day: Int = 1, formatDate: String = defaultDateFormat) = nextDay(day, formatDate)
+    fun getLastDayOfLastWeek(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = lastDayOfLastWeek(formatDate, boundary)
 
+    fun getFirstDayOfThisMonth(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = firstDayOfThisMonth(formatDate, boundary)
 
+    fun getLastDayOfThisMonth(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = lastDayOfThisMonth(formatDate, boundary)
+
+    fun getFirstDayOfLastMonth(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = firstDayOfLastMonth(formatDate, boundary)
+
+    fun getLastDayOfLastMonth(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = lastDayOfLastMonth(formatDate, boundary)
+
+    fun getLast30Day(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = last30Day(formatDate, boundary)
+
+    fun getNext30Day(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = next30Day(formatDate, boundary)
+
+    fun getLast7Day(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = last7Day(formatDate, boundary)
+
+    fun getNext7Day(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = next7Day(formatDate, boundary)
+
+    fun getTomorrow(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = tomorrow(formatDate, boundary)
+
+    fun getYesterday(
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = yesterday(formatDate, boundary)
+
+    fun getNextDay(
+        day: Int = 1,
+        formatDate: String = defaultDateFormat,
+        boundary: DayBoundary = DayBoundary.CURRENT
+    ) = nextDay(day, formatDate, boundary)
 }
