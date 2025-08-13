@@ -195,36 +195,12 @@ fun ScrollView.scrollToTop() {
 }
 
 fun ImageView.setImagePicasso(
-    url: String?,
-    error: Int = R.color.gray5,
-    onError: ((String) -> Unit)? = null
+    source: Any?,
+    error: Int = R.drawable.helper_asset_placeholder,
+    placeHolder: Int = R.drawable.helper_image_loading,
+    onFail: (() -> Unit)? = null
 ) {
-    Glide.with(context)
-        .load(url)
-        .error(error)
-        .listener(object : RequestListener<Drawable> {
-
-            override fun onResourceReady(
-                resource: Drawable,
-                model: Any,
-                target: Target<Drawable>?,
-                dataSource: DataSource,
-                isFirstResource: Boolean
-            ): Boolean {
-                return false // Return false to let Glide handle everything else
-            }
-
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<Drawable>,
-                isFirstResource: Boolean
-            ): Boolean {
-                onError?.invoke(e?.message ?: "Glide Error")
-                return true
-            }
-        })
-        .into(this)
+    loadImageGlide(source, error, placeHolder, onFail)
 }
 
 fun ImageView.setImageGlide(
