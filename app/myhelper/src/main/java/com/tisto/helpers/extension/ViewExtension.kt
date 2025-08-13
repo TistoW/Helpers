@@ -228,11 +228,12 @@ fun ImageView.setImagePicasso(
 }
 
 fun ImageView.setImageGlide(
-    url: String?,
-    error: Int = R.color.gray5,
-    onError: ((String) -> Unit)? = null
+    source: Any?,
+    error: Int = R.drawable.helper_asset_placeholder,
+    placeHolder: Int = R.drawable.helper_image_loading,
+    onFail: (() -> Unit)? = null
 ) {
-    setImagePicasso(url, error, onError)
+    loadImageGlide(source, error, placeHolder, onFail)
 }
 
 fun MaterialButton.setStrokeColor(color: Int) {
