@@ -5,8 +5,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.net.Uri
 import android.os.Environment
 import android.view.View
+import androidx.fragment.app.Fragment
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -14,6 +16,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
 
 fun File?.toMultipartBody(name: String = "image"): MultipartBody.Part? {
     if (this == null) return null
@@ -181,4 +184,33 @@ fun resizeBitmaps(source: Bitmap, maxWidth: Int): Bitmap {
     } catch (e: Exception) {
         source
     }
+}
+
+fun Activity.uriToFile(uri: Uri): File? {
+    val file = File(cacheDir, "temp_image_file.jpg")
+    try {
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+        val outputStream = FileOutputStream(file)
+        inputStream?.use { input ->
+            outputStream.use { output ->
+                input.copyTo(output)
+            }
+        }
+    } catch (e: Exception) {
+        logs(e.message)
+        return null
+    }
+    return file
+}
+
+fun Fragment.uriToFile(uri: Uri): File? {
+    return requireActivity().uriToFile(uri)
+}
+
+fun Uri.toFile(context: Activity): File? {
+    return context.uriToFile(this)
+}
+
+fun Uri.uriToFile(context: Activity): File? {
+    return context.uriToFile(this)
 }
