@@ -288,7 +288,7 @@ fun Activity.imagePicker(
     width: Int = 1080,
     height: Int = 1080,
     compress: Int = 1024,
-    isCrop: Boolean = true,
+    isCrop: Boolean = false,
     isSquare: Boolean = false,
     onlyCamera: Boolean = false,
     onlyGallery: Boolean = false,
