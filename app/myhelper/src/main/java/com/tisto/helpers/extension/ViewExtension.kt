@@ -198,9 +198,9 @@ fun ImageView.setImagePicasso(
     source: Any?,
     error: Int = R.drawable.helper_asset_placeholder,
     placeHolder: Int = R.drawable.helper_image_loading,
-    onFail: (() -> Unit)? = null
+    onError: (() -> Unit)? = null
 ) {
-    loadImageGlide(source, error, placeHolder, onFail)
+    loadImageGlide(source, error, placeHolder, onError)
 }
 
 fun ImageView.setImageGlide(
