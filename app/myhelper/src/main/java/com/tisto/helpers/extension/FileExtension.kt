@@ -187,7 +187,8 @@ fun resizeBitmaps(source: Bitmap, maxWidth: Int): Bitmap {
 }
 
 fun Activity.uriToFile(uri: Uri): File? {
-    val file = File(cacheDir, "temp_image_file.jpg")
+//    val file = File(cacheDir, "temp_image_file.jpg")
+    val file = File(cacheDir, "${currentTime("yyyy_MM_dd_kk_mm_ss_SSS")}_temp.jpg")
     try {
         val inputStream: InputStream? = contentResolver.openInputStream(uri)
         val outputStream = FileOutputStream(file)

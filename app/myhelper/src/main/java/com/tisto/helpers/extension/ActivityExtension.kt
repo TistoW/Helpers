@@ -292,7 +292,7 @@ fun Activity.imagePicker(
     isSquare: Boolean = false,
     onlyCamera: Boolean = false,
     onlyGallery: Boolean = false,
-    intent: (Intent) -> Unit
+    intent: (Intent) -> Unit,
 ) {
     val picker = ImagePicker
         .with(this)

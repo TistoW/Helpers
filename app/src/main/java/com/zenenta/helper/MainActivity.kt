@@ -13,9 +13,11 @@ import com.tisto.helpers.extension.logs
 import com.tisto.helpers.extension.onChangeRupiah
 import com.tisto.helpers.extension.openWhatsApp
 import com.tisto.helpers.extension.pushActivity
+import com.tisto.helpers.extension.setImageGlide
 import com.tisto.helpers.extension.setImagePicasso
 import com.tisto.helpers.extension.showConfirmDialog
 import com.tisto.helpers.extension.toRupiah
+import com.tisto.helpers.extension.uriToFile
 import com.tisto.helpers.util.CustomDate
 import com.zenenta.helper.databinding.ActivityMainBinding
 import java.io.File
@@ -38,33 +40,37 @@ class MainActivity : AppCompatActivity() {
 
 
 //                openWhatsApp("+6282341810186", "Hallo Admin Zen")
+//
+//                showConfirmDialog(
+//                    "Token expired!",
+//                    "Sesi login telah habis",
+//                    actionText = "Login",
+//                    actionTextSecondary = "Tutup Aplikasi",
+//                    onAction = {
+//                    },
+//                    onActionSecondary = {
+//
+//                    },
+//                    onDismiss = {
+//                        logs("on dismis calld")
+//                    })
 
-                showConfirmDialog(
-                    "Token expired!",
-                    "Sesi login telah habis",
-                    actionText = "Login",
-                    actionTextSecondary = "Tutup Aplikasi",
-                    onAction = {
-                    },
-                    onActionSecondary = {
+                imagePicker(1080, 1080) {
+                    profileLauncher.launch(it)
+                }
 
-                    },
-                    onDismiss = {
-                        logs("on dismis calld")
-                    })
             }
         }
-
     }
 
     private val profileLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val uri = it.data?.data!!
-                val fileImage = File(uri.path!!)
-                binding.ivImage.setImageURI(uri)
-                logs(fileImage.path)
-                logs(fileImage.name)
+                val fileImage = uriToFile(uri)
+                binding.ivImage.setImageGlide(fileImage)
+                logs(fileImage?.path)
+                logs(fileImage?.name)
             }
         }
 }
