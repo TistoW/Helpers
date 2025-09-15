@@ -61,13 +61,13 @@ class DateTimePicker(context: Context, attrs: AttributeSet?) : FrameLayout(conte
 
         // Set Size Divider
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            pickerHour.selectionDividerHeight = 1.dp
-            pickerMinute.selectionDividerHeight = 1.dp
-            pickerFormat.selectionDividerHeight = 1.dp
+            pickerHour.selectionDividerHeight = 1.convertToDp
+            pickerMinute.selectionDividerHeight = 1.convertToDp
+            pickerFormat.selectionDividerHeight = 1.convertToDp
         } else {
-            pickerHour.setDividerHeight(1.dp)
-            pickerMinute.setDividerHeight(1.dp)
-            pickerFormat.setDividerHeight(1.dp)
+            pickerHour.setDividerHeight(1.convertToDp)
+            pickerMinute.setDividerHeight(1.convertToDp)
+            pickerFormat.setDividerHeight(1.convertToDp)
         }
 
         // Update Display

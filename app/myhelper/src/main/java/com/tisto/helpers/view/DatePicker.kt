@@ -66,13 +66,13 @@ class DatePicker(context: Context, attrs: AttributeSet?) : FrameLayout(context, 
 
         // Set Size Divider
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            pickerDay.selectionDividerHeight = 1.dp
-            pickerMonth.selectionDividerHeight = 1.dp
-            pickerYear.selectionDividerHeight = 1.dp
+            pickerDay.selectionDividerHeight = 1.convertToDp
+            pickerMonth.selectionDividerHeight = 1.convertToDp
+            pickerYear.selectionDividerHeight = 1.convertToDp
         } else {
-            pickerDay.setDividerHeight(1.dp)
-            pickerMonth.setDividerHeight(1.dp)
-            pickerYear.setDividerHeight(1.dp)
+            pickerDay.setDividerHeight(1.convertToDp)
+            pickerMonth.setDividerHeight(1.convertToDp)
+            pickerYear.setDividerHeight(1.convertToDp)
         }
 
         // Update Display

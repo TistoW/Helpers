@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import androidx.core.graphics.createBitmap
 
 fun visible() = View.VISIBLE
 fun invisible() = View.INVISIBLE
@@ -468,37 +469,34 @@ inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
 }
 
 
-fun Bitmap.toBlackAndWhite(): Bitmap {
-    val width = this.width
-    val height = this.height
-    // create output bitmap
-    val bmOut = Bitmap.createBitmap(width, height, this.config)
-    // color information
-    var a: Int
-    var r: Int
-    var g: Int
-    var b: Int
-    var pixel: Int
-    for (x in 0 until width) {
-        for (y in 0 until height) {
-            // get pixel color
-            pixel = this.getPixel(x, y)
-            a = Color.alpha(pixel)
-            r = Color.red(pixel)
-            g = Color.green(pixel)
-            b = Color.blue(pixel)
-            var gray = (0.2989 * r + 0.5870 * g + 0.1140 * b).toInt()
-            // use 128 as threshold, above -> white, below -> black
-            gray = if (gray > 128) {
-                255
-            } else {
-                0
-            }
-            // set new pixel color to output bitmap
-            bmOut.setPixel(x, y, Color.argb(a, gray, gray, gray))
-        }
+fun Bitmap.toBlackAndWhite(threshold: Int = 128): Bitmap {
+    val w = width
+    val h = height
+
+    // config bisa null (mis. dari decodeStream tertentu), pakai fallback yang aman
+    val outConfig = this.config ?: Bitmap.Config.ARGB_8888
+    val out = createBitmap(w, h, outConfig)
+    out.density = this.density
+
+    val pixels = IntArray(w * h)
+    getPixels(pixels, 0, w, 0, 0, w, h)
+
+    // pakai bobot integer agar lebih cepat dan stabil
+    // gray ~= (r*299 + g*587 + b*114) / 1000
+    for (i in pixels.indices) {
+        val p = pixels[i]
+        val a = Color.alpha(p)
+        val r = Color.red(p)
+        val g = Color.green(p)
+        val b = Color.blue(p)
+
+        val gray = (r * 299 + g * 587 + b * 114) / 1000
+        val bw = if (gray > threshold) 255 else 0
+        pixels[i] = Color.argb(a, bw, bw, bw)
     }
-    return bmOut
+
+    out.setPixels(pixels, 0, w, 0, 0, w, h)
+    return out
 }
 
 fun Bitmap.addPaddingLeft(paddingLeft: Int): Bitmap {
