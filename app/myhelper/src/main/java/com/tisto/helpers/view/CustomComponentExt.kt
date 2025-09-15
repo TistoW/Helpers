@@ -4,10 +4,10 @@ import android.content.res.Resources
 import android.widget.NumberPicker
 import java.time.LocalDateTime
 
-val Int.dp: Int
+val Int.convertToDp: Int
     get() = (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
 
-val Float.dp: Int
+val Float.convertToDp: Int
     get() = (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
 
 fun NumberPicker.setDividerHeight(height: Int) {

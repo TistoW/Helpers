@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.tisto.helpers.R
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -293,24 +294,54 @@ fun EditText.addChangeCurrencyListeners(
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
+
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         override fun afterTextChanged(s: Editable?) {
             if (s.toString() != current) {
                 val initialCursorPosition = selectionStart
                 removeTextChangedListener(this)
-
-                val cleanString = s.toString().replace("[Rp,.\\s]".toRegex(), "")
+                val cleanString = s.toString().replace("[Rp,\\s]".toRegex(), "")
                 val parsed = cleanString.toDoubleOrNull()
+
+                val isEndWithDot = s.toString().endsWith(".")
+
+                var afterDot = ""
+                if (cleanString.contains(".")) {
+                    val split = cleanString.split(".")
+                    if (split.size >= 2) {
+                        afterDot = split[1]
+                    }
+                }
+
                 var formatted = if (parsed != null) {
-                    val formatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
-                    formatter.maximumFractionDigits = 0
-                    formatter.format(parsed).replace(".", ",")
+//                    val formatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+//                    formatter.maximumFractionDigits = 0
+//                    formatter.format(parsed)
+
+                    val locale = Locale("in", "ID")
+                    val symbols = DecimalFormatSymbols(locale).apply {
+                        groupingSeparator = '.'
+                        decimalSeparator = ','
+                    }
+
+                    val df = DecimalFormat().apply {
+                        decimalFormatSymbols = symbols
+                        isGroupingUsed = true
+                        minimumFractionDigits = 0       // no forced “,000”
+                        maximumFractionDigits = 0      // no “.00”
+                    }
+                    df.format(parsed.toIntSafety()).replace(".", ",")
+
                 } else {
                     ""
                 }
 
                 if (!includePrefix) formatted = formatted.removePrefix("Rp")
+
+                if (isEndWithDot) formatted += "."
+                if (afterDot.isNotEmpty()) formatted += ".$afterDot"
+
                 val newCursorPosition =
                     calculateNewCursorPosition(initialCursorPosition, s.toString(), formatted)
                 current = formatted

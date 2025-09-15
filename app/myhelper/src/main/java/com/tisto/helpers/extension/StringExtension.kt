@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -37,7 +41,7 @@ fun String.convertTanggal(
     if (this.contains("Z", ignoreCase = true)) {
         return this.convertFromUTC(toFormat = toFormat)
     }
-    
+
     val inputFormat = SimpleDateFormat(fromFormat)
     val outputFormat = SimpleDateFormat(toFormat)
     return try {
@@ -159,18 +163,6 @@ fun String.convertFromUTCDayTime(time: Boolean = true): String {
     }
 
     return "$hari, $tanggal${if (time) " WIB" else ""}"
-}
-
-fun Int?.toRupiah(hideCurrency: Boolean = false): String {
-    return (this ?: 0).formatCurrency(!hideCurrency)
-}
-
-fun Double?.toRupiah(hideCurrency: Boolean = false): String {
-    return (this ?: 0.0).formatCurrency(!hideCurrency)
-}
-
-fun String?.toRupiah(hideCurrency: Boolean = false): String {
-    return (this ?: "0").formatCurrency(!hideCurrency)
 }
 
 fun String.getYoutubeId(): String {
@@ -381,29 +373,51 @@ fun String.translateJson(): String {
     return this.replace("\\u003d", "=")
 }
 
-fun Double?.formatCurrency(showCurrency: Boolean = false): String {
-    if (this.isNull()) return "0"
-    val localeID = Locale("in", "ID")
-    val formatRupiah: NumberFormat = NumberFormat.getCurrencyInstance(localeID)
-    formatRupiah.minimumFractionDigits = 0
-    return try {
-        var formated = formatRupiah
-            .format(this)
-            .replace("Rp. ", "Rp")
-        formated = formated.replace("Rp", if (showCurrency) "Rp" else "")
-        formated.replace(".", ",")
-    } catch (e: Exception) {
-        e.printStackTrace()
-        "0"
+fun Number?.formatCurrency(
+    showCurrency: Boolean = false,
+    maxFractionDigits: Int = 3,
+    rounding: RoundingMode = RoundingMode.DOWN
+): String {
+    if (this == null) return if (showCurrency) "Rp0" else "0"
+
+    val locale = Locale("in", "ID")
+    val symbols = DecimalFormatSymbols(locale).apply {
+        groupingSeparator = '.'
+        decimalSeparator = ','
     }
+
+    val df = DecimalFormat().apply {
+        decimalFormatSymbols = symbols
+        isGroupingUsed = true
+        minimumFractionDigits = 0       // no forced “,000”
+        maximumFractionDigits = maxFractionDigits
+        roundingMode = rounding
+    }
+
+    // format through BigDecimal to reduce Double artifacts
+    val bd = when (this) {
+        is BigDecimal -> this
+        else -> BigDecimal.valueOf(this.toDouble())
+    }
+
+    val numberPart = df.format(bd)
+    return if (showCurrency) "Rp$numberPart" else numberPart
 }
 
 fun String?.formatCurrency(showCurrency: Boolean = false): String {
     return this.toDoubleSafety().formatCurrency(showCurrency)
 }
 
-fun Int?.formatCurrency(showCurrency: Boolean = false): String {
-    return this.toDoubleSafety().formatCurrency(showCurrency)
+fun Int?.toRupiah(hideCurrency: Boolean = false): String {
+    return (this ?: 0).formatCurrency(!hideCurrency)
+}
+
+fun Double?.toRupiah(hideCurrency: Boolean = false): String {
+    return (this ?: 0.0).formatCurrency(!hideCurrency)
+}
+
+fun String?.toRupiah(hideCurrency: Boolean = false): String {
+    return (this ?: "0").formatCurrency(!hideCurrency)
 }
 
 fun String?.startWithZero(): String {
